@@ -1,0 +1,18 @@
+{
+    "description": "",
+    "type": "neos-package",
+    "name": "schilter/gw2challenges",
+    "require": {
+        "neos/flow": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "schilter\\gw2challenges\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "schilter.gw2challenges"
+        }
+    }
+}
