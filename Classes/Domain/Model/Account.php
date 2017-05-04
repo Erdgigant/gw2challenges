@@ -29,4 +29,13 @@ class Account{
 	 * @var string
 	 */
 	protected $apikey;
+	
+	/**
+	 * 
+	 * @ORM\ManyToOne(targetEntity="mini")
+	 * @var \schilter\gw2challenges\Domain\Model\Mini
+	 */
+	protected $minis;
+	
+	
 }
