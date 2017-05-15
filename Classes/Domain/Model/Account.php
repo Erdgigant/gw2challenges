@@ -3,26 +3,9 @@ namespace schilter\gw2challenges\Domain\Model;
 
 use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
+use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 
-class Account{
-	
-	/**
-	 * 
-	 * @var int
-	 */
-	protected $id;
-	
-	/**
-	 * 
-	 * @var string
-	 */
-	protected $username;
-	
-	/**
-	 * 
-	 * @var string
-	 */
-	protected $password;
+class Account extends \Neos\Flow\Security\Account {
 	
 	/**
 	 * 
