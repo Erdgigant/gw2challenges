@@ -1,0 +1,8 @@
+-
+  name: 'Index'
+  uriPattern: ''
+  defaults:
+    '@package':    'schilter.gw2challenge'
+    '@controller': 'Mini'
+    '@action':     'index'
+    '@format':     'html'
