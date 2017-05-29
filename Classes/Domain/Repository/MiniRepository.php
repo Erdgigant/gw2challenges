@@ -11,6 +11,6 @@ use Neos\Flow\Annotations as Flow;
  * @package Internezzo\PassePartout\Domain\Repository
  * @Flow\Scope("singleton")
  */
-class CategoryRepository extends \Neos\Flow\Persistence\Repository {
+class MiniRepository extends \Neos\Flow\Persistence\Repository {
 
 }

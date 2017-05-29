@@ -4,6 +4,7 @@ namespace schilter\gw2challenges\Service;
 use Sandstorm\UserManagement\Domain\Model\RegistrationFlow;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 use schilter\gw2challenges\Domain\Model\Account;
+use Neos\Flow\Annotations as Flow;
 
 class CustomUserCreationService implements UserCreationServiceInterface {
 
