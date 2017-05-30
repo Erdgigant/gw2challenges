@@ -1,0 +1,41 @@
+.mini {
+	padding: 5px;
+	display: inline-block;
+	float: left;
+	margin: 10px;
+	border: 2px black dotted;
+	cursor: -webkit-grab;
+}
+
+.mini:hover {
+	background-color: #EEE;
+}
+
+.mini:active {
+	cursor: -webkit-grabbing;
+}
+
+.header {
+	color: red;
+}
+
+.header span {
+	cursor: pointer;
+	border: 1px solid red;
+	border-radius: 2px;
+	padding: 2px 4px;
+}
+
+.dragBox {
+	min-height: 300px;
+	margin: 20px 0;
+	border: dotted 3px black;
+}
+
+.hide {
+	opacity: .3;
+}
+
+.dragEffect {
+	border-color: red;
+}

@@ -1,5 +1,15 @@
 <f:layout name="Default" />
 
 <f:section name="Content">
-    <p>Hi</p>
+    <div id="wrapper">
+        <h2>Items</h2>
+        <div id="miniList0" class="dragBox" @dragover.prevent @drop="drop">
+            <mini v-for="mini in getMinisByList(0)" :key="mini.uid" :mini="mini"></mini>
+        </div>
+
+        <input type="text" v-model="filterText"/>
+        <div id="minisList1" class="dragBox" @dragover.prevent @drop="drop">
+            <mini v-for="mini in getMinisByList(1, true)" :key="mini.uid" :mini="mini"></mini>
+        </div>
+    </div>
 </f:section>
