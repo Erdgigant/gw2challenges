@@ -1,11 +1,4 @@
 -
-  name: 'gw2challenges'
-  uriPattern: '<gw2challengesSubroutes>'
-  subRoutes:
-    PassePartoutSubroutes:
-      package: schilter.gw2challenges
-
--
   name: 'Index'
   uriPattern: ''
   defaults:

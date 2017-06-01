@@ -17,6 +17,17 @@ var app = new Vue({
 		miniStorage: null,
 		filterText: ''
 	},
+	mounted: function(){
+		var miniData = JSON.parse($('#miniData').val());
+		var vueContext = this;
+		miniData.each(function(mini){
+			var newMini = new Mini(0);
+			newMini.id = mini.id;
+			newMini.name = mini.name;
+			newMini.icon = mini.icon;
+			vueContext.minis[] = newMini;
+		});
+	},
 	methods: {
 		getMinisByList(list, filter = false){
 			return this.minis.filter(function(val){

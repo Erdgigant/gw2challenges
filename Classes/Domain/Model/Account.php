@@ -20,5 +20,10 @@ class Account extends \Neos\Flow\Security\Account {
 	 */
 	protected $minis;
 	
-	
+	/**
+	 *
+	 * @ORM\ManyToOne(targetEntity="challenge")
+	 * @var \schilter\gw2challenges\Domain\Model\Challenge
+	 */
+	protected $challenges;
 }

@@ -3,6 +3,8 @@
 <f:section name="Content">
     <div id="wrapper">
         <h2>Items</h2>
+        <input id="miniData" type="hidden" value="{minis}"/>
+        
         <div id="miniList0" class="dragBox" @dragover.prevent @drop="drop">
             <mini v-for="mini in getMinisByList(0)" :key="mini.uid" :mini="mini"></mini>
         </div>
