@@ -7,17 +7,27 @@ namespace schilter\gw2challenges\Domain\Repository;
 use Neos\Flow\Annotations as Flow;
 
 /**
- * Class CategoryRepository
- * @package Internezzo\PassePartout\Domain\Repository
  * @Flow\Scope("singleton")
  */
-class MiniRepository extends \Neos\Flow\Persistence\Repository {
+class MiniRepository {
 
+	/**
+	 * @Flow\Inject
+	 * @var \PDO
+	 */
+	protected $pdo;
+	
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
 	 * @Flow\Inject
 	 */
 	protected $entityManager;
+	
+	public function findAll(){
+		$stmt = $this->pdo->prepare("SELECT * FROM Mini");
+		$stmt->execute();
+		return $stmt->fetchAll();
+	}
 
 	public function createMinis($minis){
 
@@ -27,8 +37,8 @@ class MiniRepository extends \Neos\Flow\Persistence\Repository {
 		}
 
 		$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (id, name, icon) VALUES '.implode(', ', $constraints);
-
-		$query = $this->entityManager->createQuery($sql);
-		return $query->execute();
+		
+		$stmt = $this->pdo->prepare($sql);	
+		$stmt->execute();
 	}
 }

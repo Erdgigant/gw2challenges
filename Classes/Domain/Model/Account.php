@@ -5,6 +5,9 @@ use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 
+/**
+ * @Flow\Entity
+ */
 class Account extends \Neos\Flow\Security\Account {
 	
 	/**

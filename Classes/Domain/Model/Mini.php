@@ -4,6 +4,9 @@ namespace schilter\gw2challenges\Domain\Model;
 use Neos\Flow\Annotations as Flow;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @Flow\Entity
+ */
 class Mini{
 	
 	/**

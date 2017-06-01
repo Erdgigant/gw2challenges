@@ -1,6 +1,8 @@
 <?php
 namespace schilter\gw2challenges\Command;
 
+use Neos\Flow\Annotations as Flow;
+
 class Gw2apiCommandController extends \Neos\Flow\Cli\CommandController {
 
 	const API_URL = 'https://api.guildwars2.com/v2/minis?ids=all&lang=de';
