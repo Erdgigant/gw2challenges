@@ -11,11 +11,17 @@ use Neos\Flow\Annotations as Flow;
  */
 class MiniRepository {
 
+	/**	
+	 * @FLow\Inject
+	 * @var \schilter\gw2challenges\Service\PDOService
+	 */
+	protected $pdoService;
+	
 	/**
 	 * @Flow\Inject
-	 * @var \PDO
+	 * @var Neos\Flow\Persistence\Generic\DataMapper
 	 */
-	protected $pdo;
+	protected $dataMapper;
 	
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -24,7 +30,7 @@ class MiniRepository {
 	protected $entityManager;
 	
 	public function findAll(){
-		$stmt = $this->pdo->prepare("SELECT * FROM Mini");
+		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM Mini");
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
@@ -38,7 +44,7 @@ class MiniRepository {
 
 		$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (id, name, icon) VALUES '.implode(', ', $constraints);
 		
-		$stmt = $this->pdo->prepare($sql);	
+		$stmt = $this->pdoService->getPdo()->prepare($sql);	
 		$stmt->execute();
 	}
 }

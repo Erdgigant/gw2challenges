@@ -33,7 +33,7 @@ class MiniController extends ActionController
 			$minis = $this->securityContext->getAccount()->getMinis();
 		}
 		else{
-			$minis = $this->miniRepository->findAll()->toArray();
+			$minis = $this->miniRepository->findAll();
 		}
 
 		$this->view->assign('minis', json_encode($minis));

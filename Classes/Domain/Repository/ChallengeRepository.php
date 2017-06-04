@@ -10,10 +10,10 @@ use Neos\Flow\Annotations as Flow;
  * @Flow\Scope("singleton")
  */
 class ChallengeRepository {
-
+	
 	/**
-	 * @Flow\Inject
-	 * @var \PDO
+	 * @FLow\Inject
+	 * @var \schilter\gw2challenges\Service\PDOService
 	 */
-	protected $pdo;
+	protected $pdoService;
 }

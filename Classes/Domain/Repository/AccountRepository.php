@@ -11,9 +11,10 @@ use Neos\Flow\Annotations as Flow;
  */
 class AccountRepository {
 	
-	/**
-	 * @Flow\Inject
-	 * @var \PDO
+	/**	
+	 * @FLow\Inject
+	 * @var \schilter\gw2challenges\Service\PDOService
 	 */
-	protected $pdo;
+	protected $pdoService;
+	
 }
