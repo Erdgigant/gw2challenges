@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @Flow\Entity
  */
-class Mini{
+class Mini {
 	
 	/**
 	 * 
@@ -26,4 +26,28 @@ class Mini{
 	 * @var string
 	 */
 	protected $icon;
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function setId($id){
+		$this->id = $id;
+	}
+	
+	public function getName(){
+		return $this->name;
+	}
+	
+	public function setName($name){
+		$this->name = $name;
+	}
+	
+	public function getIcon(){
+		return $this->icon;
+	}
+	
+	public function setIcon($icon){
+		$this->icon = $icon;
+	}
 }

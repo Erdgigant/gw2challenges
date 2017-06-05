@@ -9,7 +9,7 @@
     
 -
   name: 'MiniController'
-  uriPattern: '{@action}'
+  uriPattern: 'Mini/{@action}'
   defaults:
     '@package':    'schilter.gw2challenges'
     '@controller': 'Mini'

@@ -24,9 +24,9 @@ class MiniController extends ActionController
 
 	/**
 	 * @Flow\Inject
-	 * @var \schilter\gw2challenges\Domain\Repository\AccountRepository
+	 * @var \schilter\gw2challenges\Domain\Repository\UserRepository
 	 */
-	protected $accountRepository;
+	protected $userRepository;
 	
 	public function indexAction(){
 		
