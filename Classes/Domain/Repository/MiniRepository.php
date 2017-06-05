@@ -30,21 +30,46 @@ class MiniRepository {
 	protected $entityManager;
 	
 	public function findAll(){
-		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM Mini");
+		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM schilter_gw2challenges_domain_model_mini");
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
+	
+	public function removeAll(){
+		
+		try{
+			$this->pdoService->getPdo()->beginTransaction();
+			
+			$sql = 'DELETE FROM schilter_gw2challenges_domain_model_mini';
+			$stmt = $this->pdoService->getPdo()->prepare($sql);
+			$stmt->execute();
+			
+			$this->pdoService->getPdo()->commit();
+		}
+		catch(\PDOException $e){
+			$this->pdoService->getPdo()->rollBack();
+			die($e->getMessage());
+		}
+	}
 
 	public function createMinis($minis){
-
-		$constraints = array();
-		foreach($minis as $mini){
-			$constraints[] = printf('(%s, \'%s\', \'%s\')', $mini['id'], $mini['name'], $mini['icon']) ;
+		try{
+			$this->pdoService->getPdo()->beginTransaction();
+				
+			$constraints = array();
+			foreach($minis as $mini){
+				$constraints[] = sprintf('(%s, \'%s\', \'%s\')', $mini['id'], addslashes($mini['name']), $mini['icon']) ;
+			}
+			
+			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (id, name, icon) VALUES '.implode(', ', $constraints);		
+			$stmt = $this->pdoService->getPdo()->prepare($sql);
+			$stmt->execute();
+				
+			$this->pdoService->getPdo()->commit();
 		}
-
-		$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (id, name, icon) VALUES '.implode(', ', $constraints);
-		
-		$stmt = $this->pdoService->getPdo()->prepare($sql);	
-		$stmt->execute();
+		catch(\PDOException $e){
+			$this->pdoService->getPdo()->rollBack();
+			die($e->getMessage());
+		}
 	}
 }
