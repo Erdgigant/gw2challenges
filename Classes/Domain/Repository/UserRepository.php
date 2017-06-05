@@ -11,6 +11,12 @@ use Neos\Flow\Annotations as Flow;
  */
 class UserRepository {
 	
+	/**
+	 * @Flow\Inject
+	 * @var \Neos\Flow\Persistence\PersistenceManagerInterface
+	 */
+	protected $persistenceManager;
+	
 	/**	
 	 * @FLow\Inject
 	 * @var \schilter\gw2challenges\Service\PDOService
@@ -21,9 +27,9 @@ class UserRepository {
 		try{
 			$this->pdoService->getPdo()->beginTransaction();
 				
-			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_user (account, apikey) VALUES ('.$user->getAccount().', '.$user->getApiKey().')';		
-			$stmt->execute();
-		
+			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_user (account, apikey) VALUES (\''.$this->persistenceManager->getIdentifierByObject($user->getAccount()).'\', \''.$user->getApiKey().'\')';					
+			$stmt = $this->pdoService->getPdo()->prepare($sql);
+			$stmt->execute();		
 			$this->pdoService->getPdo()->commit();
 		}
 		catch(\PDOException $e){
