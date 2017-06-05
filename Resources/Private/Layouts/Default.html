@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html>
     <head>
+    	<f:base />    
         <meta charset="utf-8">
-        <title>GW2Challenges</title>
-        <link href="{f:uri.resource(path: 'css/stylesheet.css', package: 'schilter.gw2challenges')}" media="screen" rel="stylesheet" type="text/css"/>
+        <title>GW2Challenges</title>        
         <script src="https://unpkg.com/jquery" ></script>
         <script src="https://unpkg.com/vue" ></script>
-        <script type="text/javascript" src="{f:uri.resource(path: 'Javascript/script.js', package: 'schilter.gw2challenges')}"></script>
-        <f:base />
+        <link href="_Resources/Static/Packages/Default/css/stylesheet.css" rel="stylesheet" type="text/css"/>              
     </head>
     <body>
+    	<div>
+    		<f:link.action action="index" controller="Mini">Index</f:link.action>
+    		<f:link.action action="all" controller="Mini">All Minis</f:link.action>
+    		<f:link.action action="my" controller="Mini">My Minis</f:link.action>
+    	</div>
+    
         <f:flashMessages class="flashmessages" />
 
         <f:render section="Content" />
     </body>
+    <footer>
+    	<script src="_Resources/Static/Packages/Default/Javascript/script.js" type="text/javascript"></script>
+    </footer>
 </html>

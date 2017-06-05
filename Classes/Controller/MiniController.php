@@ -29,13 +29,14 @@ class MiniController extends ActionController
 	protected $accountRepository;
 	
 	public function indexAction(){
-		if($this->securityContext->getAccount()){
-			$minis = $this->securityContext->getAccount()->getMinis();
-		}
-		else{
-			$minis = $this->miniRepository->findAll();
-		}
-
-		$this->view->assign('minis', json_encode($minis));
+		
+	}
+	
+	public function allAction(){
+		$this->view->assign('minis', json_encode($this->miniRepository->findAll()));
+	}
+	
+	public function myAction(){	
+		$this->view->assign('minis', json_encode($this->securityContext->getAccount()->getMinis()));
 	}
 }

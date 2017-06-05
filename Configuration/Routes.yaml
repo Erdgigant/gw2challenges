@@ -6,3 +6,11 @@
     '@controller': 'Mini'
     '@action':     'index'
     '@format':     'html'
+    
+-
+  name: 'MiniController'
+  uriPattern: '{@action}'
+  defaults:
+    '@package':    'schilter.gw2challenges'
+    '@controller': 'Mini'
+    '@format':     'html'

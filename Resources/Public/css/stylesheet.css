@@ -5,6 +5,12 @@
 	margin: 10px;
 	border: 2px black dotted;
 	cursor: -webkit-grab;
+	width: 200px;
+    height: 300px;
+}
+
+.mini p {
+	height: 36px;
 }
 
 .mini:hover {
@@ -30,6 +36,7 @@
 	min-height: 300px;
 	margin: 20px 0;
 	border: dotted 3px black;
+	display: inline-block;
 }
 
 .hide {

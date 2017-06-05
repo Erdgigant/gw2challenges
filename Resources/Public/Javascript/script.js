@@ -18,15 +18,14 @@ var app = new Vue({
 		filterText: ''
 	},
 	mounted: function(){
-		var miniData = JSON.parse($('#miniData').val());
-		var vueContext = this;
-		miniData.each(function(mini){
+		var miniData = JSON.parse($('#miniData').val());		
+		miniData.forEach(function(mini){
 			var newMini = new Mini(0);
 			newMini.id = mini.id;
 			newMini.name = mini.name;
 			newMini.icon = mini.icon;
-			vueContext.minis[] = newMini;
-		});
+			this.minis.splice(this.minis.indexOf(mini)+1, 0, newMini);
+		}, this);
 	},
 	methods: {
 		getMinisByList(list, filter = false){
