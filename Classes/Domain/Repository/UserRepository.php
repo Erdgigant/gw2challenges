@@ -22,6 +22,12 @@ class UserRepository {
 	 * @var \schilter\gw2challenges\Service\PDOService
 	 */
 	protected $pdoService;
+
+	/**
+	 * @Flow\Inject
+	 * @var \Neos\Flow\Persistence\Generic\DataMapper
+	 */
+	protected $dataMapper;
 	
 	public function add($user){
 		try{
@@ -36,5 +42,16 @@ class UserRepository {
 			$this->pdoService->getPdo()->rollBack();
 			die($e->getMessage());
 		}
+	}
+
+	/**
+	 * @param $account \Neos\Flow\Security\Account
+	 * @return array
+	 */
+	public function findByAccount($account){
+		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = \''.$account->getAccountIdentifier().'\'';
+		$stmt = $this->pdoService->getPdo()->prepare($sql);
+		$stmt->execute();
+		return $this->dataMapper->mapToObject($stmt->fetch());
 	}
 }

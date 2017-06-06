@@ -10,6 +10,8 @@ use Neos\Flow\Mvc\Controller\ActionController;
 
 class MiniController extends ActionController
 {
+	const MINI_URL = 'https://api.guildwars2.com/v2/account/minis?access_token=';
+
 	/**
 	 * @Flow\Inject
 	 * @var \Neos\Flow\Security\Context
@@ -38,5 +40,10 @@ class MiniController extends ActionController
 	
 	public function myAction(){	
 		$this->view->assign('minis', json_encode($this->securityContext->getAccount()->getMinis()));
+	}
+
+	public function reLoadAction(){
+		$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+		$minis = json_decode(file_get_contents(self::MINI_URL.$user->getApiKey()), true);
 	}
 }
