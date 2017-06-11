@@ -6,7 +6,9 @@
         	<div>
         		<p>{challenge.id} - {challenge.name}<p>
         		
-        		
+        		<f:for each="{challenge.minis}" as="mini">
+        			<p>{mini.id} - {mini.name} - {mini.reached}</p>
+        		</f:for>
         	</div>        	
         </f:for>
     </div>

@@ -46,9 +46,9 @@ class ChallengeController extends ActionController
 					$challenges[] = array(
 							'id' => $challenge->getId(),
 							'name' => $challenge->getName(),
-							'minis' => $challenge->getMinis()
+							'minis' => $this->getMinis($challenge->getMinis())
 					);
-				}
+				}				
 				$this->view->assign('challenges', $challenges);
 			}
 			else{
@@ -85,6 +85,23 @@ class ChallengeController extends ActionController
 		}
 		$this->redirect('index', 'Mini');
 		
+	}
+	
+	protected function getMinis($ids){
+		$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+		$userIds = explode(',', $user->getMinis());
+		
+		$minis = array();
+		foreach(explode(',',$ids) as $id){
+			$mini = $this->miniRepository->getById($id);
+			$minis[] = array(
+					'id' => $mini->getId(),
+					'name' => $mini->getName(),
+					'icon' => $mini->getIcon(),
+					'reached' => in_array($mini->getId(), $userIds) ? 'Reached' : 'Not yet'
+			);
+		}
+		return $minis;
 	}
 }
 
