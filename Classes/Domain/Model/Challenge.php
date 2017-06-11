@@ -21,10 +21,8 @@ class Challenge{
 	 */
 	protected $name;
 	
-	/**
-	 * 
-	 * @ORM\ManyToOne(targetEntity="\schilter\gw2challenges\Domain\Model\Mini")
-	 * @var \schilter\gw2challenges\Domain\Model\Mini
+	/**	
+	 * @var string
 	 */
 	protected $minis;
 	

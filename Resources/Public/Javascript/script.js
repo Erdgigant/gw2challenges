@@ -77,6 +77,13 @@ var app = new Vue({
 			this.miniStorage = null;
 		}
 	},
+	computed: {
+		getMinisForChallenge(){
+			return this.getMinisByList(1).map(function(a){
+				return a.id;
+			});
+		}
+	},
 	components: {
 		Mini: {
 			props: ['mini'],

@@ -1,0 +1,28 @@
+<f:layout name="Default" />
+
+<f:section name="Content">
+    <div id="wrapper">
+        <h2>Minis</h2>
+        <input id="miniData" type="hidden" value="{minis}"/>
+        
+        <h3>Challenge Minis</h6>   
+        <div id="miniList1" class="dragBox" @dragover.prevent @drop="drop">
+            <mini v-for="mini in getMinisByList(1)" :key="mini.uid" :mini="mini"></mini>
+        </div>
+        
+        <f:form action="create" method="post">
+        	<input type="text" name="name" placeholder="Name"/>
+        	<input type="hidden" name="ids" v-model="getMinisForChallenge"/>
+        	<Button>Create Challenge</Button>
+        </f:form>
+
+		<div><input type="text" v-model="filterText" placeholder="Filter"/></div>		
+        <div id="minisList0" class="dragBox" @dragover.prevent @drop="drop">
+            <mini v-for="mini in getMinisByList(0, true)" :key="mini.uid" :mini="mini"></mini>
+        </div>
+    </div>
+    
+    <script>
+    	
+    </script>
+</f:section>
