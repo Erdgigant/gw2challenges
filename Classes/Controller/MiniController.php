@@ -41,7 +41,17 @@ class MiniController extends ActionController
 	public function myAction(){	
 		if($this->securityContext->getAccount()){
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
-			$this->view->assign('minis', json_encode($user->getMinis()));
+			$ids = explode(',', $user->getMinis());
+			$minis = array();
+			foreach($ids as $id){
+				$mini = $this->miniRepository->getById($id);	
+				$minis[] = array(
+						'id' => $mini->getId(),
+						'name' => $mini->getName(),
+						'icon' => $mini->getIcon()
+				);
+			}			
+			$this->view->assign('minis', json_encode($minis));
 		}
 		else{
 			$this->addFlashMessage('Please Log in first', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
@@ -57,6 +67,7 @@ class MiniController extends ActionController
 					$minis = json_decode(file_get_contents(self::MINI_URL.$user->getApiKey()), true);			
 					$user->setMinis(implode(',', $minis));
 					$this->userRepository->updateMinis($user);
+					$this->addFlashMessage('Your minis were reloaded');
 				}
 				catch(\Exception $e){
 					$this->addFlashMessage('Could not fetch data, Api Key might be wrong: '.$e->getMessage(), 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
