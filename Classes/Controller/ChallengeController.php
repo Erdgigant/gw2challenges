@@ -38,15 +38,15 @@ class ChallengeController extends ActionController
 	public function listAction(){
 		if($this->securityContext->getAccount()){			
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
-			$ids = explode(',', $user->getChallenges());
+			$ids = explode(',', $user->getChallenges());		
 			if($ids[0] != ''){		
 				$challenges = array();			
 				foreach($ids as $id){
 					$challenge = $this->challengeRepository->getById($id);
 					$challenges[] = array(
-							'id' => $mini->getId(),
-							'name' => $mini->getName(),
-							'minis' => $mini->getIcon()
+							'id' => $challenge->getId(),
+							'name' => $challenge->getName(),
+							'minis' => $challenge->getMinis()
 					);
 				}
 				$this->view->assign('challenges', $challenges);
@@ -66,7 +66,26 @@ class ChallengeController extends ActionController
 		$this->view->assign('minis', json_encode($this->miniRepository->findAll()));
 	}
 	
-	public function createAction(){
+	/**
+	 * 
+	 * @param string $name
+	 * @param string $ids
+	 */
+	public function createAction($name, $ids){
+		if($this->securityContext->getAccount()){
+			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+			$identifier = $this->challengeRepository->newChallenge($name, rtrim($ids, ','));	
+			$id = $this->challengeRepository->getIdByIdentifier($identifier);
+			\Neos\Flow\var_dump($id);
+			$this->userRepository->updateChallenges($id);
+			$this->addFlashMessage('Challenge created');
+		}
+		else{
+			$this->addFlashMessage('Please Log in first', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);			
+		}
+		$this->redirect('index', 'Mini');
 		
 	}
 }
+
+

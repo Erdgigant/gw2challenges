@@ -80,7 +80,9 @@ var app = new Vue({
 	computed: {
 		getMinisForChallenge(){
 			return this.getMinisByList(1).map(function(a){
-				return a.id;
+				if(a.id){
+					return a.id
+				}
 			});
 		}
 	},

@@ -79,6 +79,12 @@ class UserRepository {
 		$stmt->execute();
 	}
 	
+	public function updateChallenges($id){
+		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET challenges = CONCAT(challenges, \','.$id.'\')';
+		$stmt = $this->pdoService->getPdo()->prepare($sql);
+		$stmt->execute();
+	}
+	
 	public function getConfiguration()
 	{
 		/** @var PropertyMappingConfiguration $configuration */
