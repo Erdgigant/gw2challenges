@@ -31,8 +31,9 @@ class UserRepository {
 	
 	public function add($user){
 		try{
-			$this->pdoService->getPdo()->beginTransaction();				
-			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_user (account, apikey) VALUES (\''.$this->persistenceManager->getIdentifierByObject($user->getAccount()).'\', \''.$user->getApiKey().'\')';					
+			$this->pdoService->getPdo()->beginTransaction();	
+			$identifier =  \Neos\Utility\ObjectAccess::getProperty($user, 'Persistence_Object_Identifier', true);
+			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_user (persistence_object_identifier, account, apikey) VALUES (\''.$identifier.'\', \''.$this->persistenceManager->getIdentifierByObject($user->getAccount()).'\', \''.$user->getApiKey().'\')';					
 			$stmt = $this->pdoService->getPdo()->prepare($sql);
 			$stmt->execute();		
 			$this->pdoService->getPdo()->commit();
@@ -52,21 +53,45 @@ class UserRepository {
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
 		$stmt->execute();
 		$result = $stmt->fetch(); 			
-		return $this->propertyMapper->convert(array(
-				'id' => $result['id'],
-				'account' => $result['account'],
-				'minis' => $result['minis'],
-				'challenges' => $result['challenges'],
-				'apikey' => $result['apikey'],
-		), \schilter\gw2challenges\Domain\Model\User::class);
+		return $this->propertyMapper->convert(
+				$result,
+				\schilter\gw2challenges\Domain\Model\User::class,
+				$this->getConfiguration());
 	}
 	
 	/**
 	 * 
 	 * @param \schilter\gw2challenges\Domain\Model\User $user
 	 */
-	public function update($user){
-		$this->persistenceManager->update($user);
+	public function updateApiKey($user){
+		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET apikey = \''.$user->getApiKey().'\' WHERE id ='.$user->getId();
+		$stmt = $this->pdoService->getPdo()->prepare($sql);
+		$stmt->execute();
+	}
+	
+	/**
+	 *
+	 * @param \schilter\gw2challenges\Domain\Model\User $user
+	 */
+	public function updateMinis($user){
+		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET minis = \''.$user->getMinis().'\' WHERE id ='.$user->getId();
+		$stmt = $this->pdoService->getPdo()->prepare($sql);
+		$stmt->execute();
+	}
+	
+	public function getConfiguration()
+	{
+		/** @var PropertyMappingConfiguration $configuration */
+		$configuration = new \Neos\Flow\Property\PropertyMappingConfiguration();
+	
+		$configuration->setTypeConverterOptions(\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::class, [
+				\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED => true,
+				\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED => true
+		]);
+		$configuration->skipUnknownProperties();
+		$configuration->allowProperties('id', 'account', 'minis', 'challenges', 'apikey');
+	
+		return $configuration;
 	}
 }
 

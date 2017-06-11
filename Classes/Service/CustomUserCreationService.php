@@ -34,7 +34,7 @@ class CustomUserCreationService implements UserCreationServiceInterface {
 		$account = new Account();
 		$account->setAccountIdentifier($registrationFlow->getEmail());
 		$account->setCredentialsSource($registrationFlow->getEncryptedPassword());
-		$account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');
+		$account->setAuthenticationProviderName('Sandstorm.UserManagement:Login');		
 		$this->accountRepository->add($account);
 		$this->persistenceManager->persistAll();
 	

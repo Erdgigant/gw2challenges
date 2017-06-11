@@ -22,14 +22,30 @@ class UserController extends ActionController
 	 */
 	protected $userRepository;
 	
-	public function apiAction(){
+	public function apiAction(){		
 		if($this->securityContext->getAccount()){
-			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());	
 			$this->view->assign('api', $user->getApiKey());
 		}
 		else{
 			$this->addFlashMessage('Please Log in first', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
 			$this->redirect('index', 'Mini');
 		}
+	}
+	
+	/**	 
+	 * @param string $api
+	 */
+	public function editAction($api){
+		if($this->securityContext->getAccount()){
+			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+			$user->setApiKey($api);
+			$this->userRepository->updateApiKey($user);
+			$this->addFlashMessage('Api key changed');
+		}
+		else{
+			$this->addFlashMessage('Please Log in first', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);		
+		}
+		$this->redirect('index', 'Mini');
 	}
 }

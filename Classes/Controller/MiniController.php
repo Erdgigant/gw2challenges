@@ -39,20 +39,27 @@ class MiniController extends ActionController
 	}
 	
 	public function myAction(){	
-		$this->view->assign('minis', json_encode($this->securityContext->getAccount()->getMinis()));
+		if($this->securityContext->getAccount()){
+			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
+			$this->view->assign('minis', json_encode($user->getMinis()));
+		}
+		else{
+			$this->addFlashMessage('Please Log in first', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
+			$this->redirect('index');
+		}
 	}
 
 	public function reLoadAction(){
-		if($this->securityContext->getAccount()){
+		if($this->securityContext->getAccount()){			
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());			
 			if($user->getApiKey()){
 				try {
-					$minis = json_decode(file_get_contents(self::MINI_URL.$user->getApiKey()), true);
-					$user->setMinis($minis);
-					$this->userRepository->update($user);
+					$minis = json_decode(file_get_contents(self::MINI_URL.$user->getApiKey()), true);			
+					$user->setMinis(implode(',', $minis));
+					$this->userRepository->updateMinis($user);
 				}
 				catch(\Exception $e){
-					$this->addFlashMessage('Could not fetch data, Api Key might be wrong', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
+					$this->addFlashMessage('Could not fetch data, Api Key might be wrong: '.$e->getMessage(), 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
 				}
 			}
 			else{

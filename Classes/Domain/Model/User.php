@@ -27,17 +27,13 @@ class User {
 	 */
 	protected $apikey;
 	
-	/**
-	 * 
-	 * @ORM\ManyToOne(targetEntity="\schilter\gw2challenges\Domain\Model\Mini")
-	 * @var \schilter\gw2challenges\Domain\Model\Mini
+	/**	 
+	 * @var string
 	 */
 	protected $minis;
 	
-	/**
-	 *
-	 * @ORM\ManyToOne(targetEntity="\schilter\gw2challenges\Domain\Model\Challenge")
-	 * @var \schilter\gw2challenges\Domain\Model\Challenge
+	/**	
+	 * @var string
 	 */
 	protected $challenges;
 	

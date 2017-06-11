@@ -17,7 +17,7 @@
     
 -
   name: 'UserController'
-  uriPattern: 'User/{@action}'
+  uriPattern: 'user/{@action}'
   defaults:
     '@package':    'schilter.gw2challenges'
     '@controller': 'User'
@@ -25,7 +25,7 @@
  
 -
   name: 'ChallengeController'
-  uriPattern: 'Challenge/{@action}'
+  uriPattern: 'challenge/{@action}'
   defaults:
     '@package':    'schilter.gw2challenges'
     '@controller': 'Challenge'

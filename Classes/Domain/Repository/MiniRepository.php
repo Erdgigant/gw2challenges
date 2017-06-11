@@ -19,9 +19,9 @@ class MiniRepository {
 	
 	/**
 	 * @Flow\Inject
-	 * @var Neos\Flow\Persistence\Generic\DataMapper
+	 * @var \Neos\Flow\Property\PropertyMapper
 	 */
-	protected $dataMapper;
+	protected $propertyMapper;
 	
 	/**
 	 * @var \Doctrine\Common\Persistence\ObjectManager
@@ -33,6 +33,15 @@ class MiniRepository {
 		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM schilter_gw2challenges_domain_model_mini");
 		$stmt->execute();
 		return $stmt->fetchAll();
+	}
+	
+	public function getById($id){
+		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM schilter_gw2challenges_domain_model_mini WHERE id =".$id);
+		$stmt->execute();
+		return $this->propertyMapper->convert(
+				$stmt->fetch(), 
+				\schilter\gw2challenges\Domain\Model\Mini::class,
+				$this->getConfiguration());	
 	}
 	
 	public function removeAll(){
@@ -57,11 +66,16 @@ class MiniRepository {
 			$this->pdoService->getPdo()->beginTransaction();
 				
 			$constraints = array();
-			foreach($minis as $mini){
-				$constraints[] = sprintf('(%s, \'%s\', \'%s\')', $mini['id'], addslashes($mini['name']), $mini['icon']) ;
+			foreach($minis as $miniArray){
+				$mini = $this->propertyMapper->convert(
+						$miniArray, 
+						\schilter\gw2challenges\Domain\Model\Mini::class,
+						$this->getConfiguration());				
+				$identifier =  \Neos\Utility\ObjectAccess::getProperty($mini, 'Persistence_Object_Identifier', true);
+				$constraints[] = sprintf('(\'%s\', %s, \'%s\', \'%s\')', $identifier, $mini->getId(), addslashes($mini->getName()), $mini->getIcon()) ;
 			}
 			
-			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (id, name, icon) VALUES '.implode(', ', $constraints);		
+			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_mini (persistence_object_identifier, id, name, icon) VALUES '.implode(', ', $constraints);				
 			$stmt = $this->pdoService->getPdo()->prepare($sql);
 			$stmt->execute();
 				
@@ -71,5 +85,20 @@ class MiniRepository {
 			$this->pdoService->getPdo()->rollBack();
 			die($e->getMessage());
 		}
+	}
+	
+	public function getConfiguration()
+	{
+		/** @var PropertyMappingConfiguration $configuration */
+		$configuration = new \Neos\Flow\Property\PropertyMappingConfiguration();
+	
+		$configuration->setTypeConverterOptions(\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::class, [
+				\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_CREATION_ALLOWED => true,
+				\Neos\Flow\Property\TypeConverter\PersistentObjectConverter::CONFIGURATION_MODIFICATION_ALLOWED => true
+		]);	
+		$configuration->skipUnknownProperties();
+		$configuration->allowProperties('id', 'name', 'icon');	
+		
+		return $configuration;
 	}
 }
