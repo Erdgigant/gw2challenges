@@ -8,7 +8,12 @@ use Sandstorm\UserManagement\Domain\Service\UserCreationServiceInterface;
 /**
  * @Flow\Entity
  */
-class User {
+class User {	
+	
+	/**	 
+	 * @var int
+	 */
+	protected $id;
 	
 	/**
 	 * @var \Neos\Flow\Security\Account
@@ -35,6 +40,14 @@ class User {
 	 * @var \schilter\gw2challenges\Domain\Model\Challenge
 	 */
 	protected $challenges;
+	
+	public function getId(){
+		return $this->id;
+	}
+	
+	public function setId($id){
+		$this->id = $id;
+	}
 	
 	public function getAccount(){
 		return $this->account;

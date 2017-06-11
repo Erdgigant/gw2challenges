@@ -1,3 +1,5 @@
+{namespace um=Sandstorm\UserManagement\ViewHelpers}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,6 +15,19 @@
     		<f:link.action action="index" controller="Mini">Index</f:link.action>
     		<f:link.action action="all" controller="Mini">All Minis</f:link.action>
     		<f:link.action action="my" controller="Mini">My Minis</f:link.action>
+    		<f:link.action action="reload" controller="Mini">Reload my Minis</f:link.action>
+    		<f:link.action action="api" controller="User">Api Key</f:link.action>
+    	</div>
+    	
+    	<div>
+    		<um:ifAuthenticated>
+			  <f:then>
+			    <f:link.action action="logout" controller="Login" package="Sandstorm.UserManagement">Logout</f:link.action>
+			  </f:then>
+			  <f:else>
+			    <f:link.action action="login" controller="Login" package="Sandstorm.UserManagement">Login</f:link.action>
+			  </f:else>
+			</um:ifAuthenticated>
     	</div>
     
         <f:flashMessages class="flashmessages" />

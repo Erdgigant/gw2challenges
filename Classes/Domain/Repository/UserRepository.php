@@ -25,14 +25,13 @@ class UserRepository {
 
 	/**
 	 * @Flow\Inject
-	 * @var \Neos\Flow\Persistence\Generic\DataMapper
+	 * @var \Neos\Flow\Property\PropertyMapper
 	 */
-	protected $dataMapper;
+	protected $propertyMapper;
 	
 	public function add($user){
 		try{
-			$this->pdoService->getPdo()->beginTransaction();
-				
+			$this->pdoService->getPdo()->beginTransaction();				
 			$sql = 'INSERT INTO schilter_gw2challenges_domain_model_user (account, apikey) VALUES (\''.$this->persistenceManager->getIdentifierByObject($user->getAccount()).'\', \''.$user->getApiKey().'\')';					
 			$stmt = $this->pdoService->getPdo()->prepare($sql);
 			$stmt->execute();		
@@ -49,9 +48,30 @@ class UserRepository {
 	 * @return array
 	 */
 	public function findByAccount($account){
-		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = \''.$account->getAccountIdentifier().'\'';
+		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = \''.$this->persistenceManager->getIdentifierByObject($account).'\'';
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
 		$stmt->execute();
-		return $this->dataMapper->mapToObject($stmt->fetch());
+		$result = $stmt->fetch(); 			
+		return $this->propertyMapper->convert(array(
+				'id' => $result['id'],
+				'account' => $result['account'],
+				'minis' => $result['minis'],
+				'challenges' => $result['challenges'],
+				'apikey' => $result['apikey'],
+		), \schilter\gw2challenges\Domain\Model\User::class);
+	}
+	
+	/**
+	 * 
+	 * @param \schilter\gw2challenges\Domain\Model\User $user
+	 */
+	public function update($user){
+		$this->persistenceManager->update($user);
 	}
 }
+
+
+
+
+
+
