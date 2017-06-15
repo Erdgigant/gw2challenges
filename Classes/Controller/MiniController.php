@@ -41,16 +41,23 @@ class MiniController extends ActionController
 	public function myAction(){	
 		if($this->securityContext->getAccount()){
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
-			$ids = explode(',', $user->getMinis());
-			$minis = array();
-			foreach($ids as $id){
-				$mini = $this->miniRepository->getById($id);	
-				$minis[] = array(
-						'id' => $mini->getId(),
-						'name' => $mini->getName(),
-						'icon' => $mini->getIcon()
-				);
-			}			
+			$miniString = $user->getMinis();
+			if($miniString != null && $miniString != ''){
+				$ids = explode(',', $miniString);
+				$minis = array();
+				foreach($ids as $id){
+					$mini = $this->miniRepository->getById($id);	
+					$minis[] = array(
+							'id' => $mini->getId(),
+							'name' => $mini->getName(),
+							'icon' => $mini->getIcon()
+					);
+				}			
+			}
+			else{
+				$this->addFlashMessage('No Minis found', 'Error', \Neos\Error\Messages\Message::SEVERITY_ERROR);
+				$this->redirect('index');
+			}
 			$this->view->assign('minis', json_encode($minis));
 		}
 		else{

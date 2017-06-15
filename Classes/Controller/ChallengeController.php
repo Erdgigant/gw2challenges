@@ -38,8 +38,9 @@ class ChallengeController extends ActionController
 	public function listAction(){
 		if($this->securityContext->getAccount()){			
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
-			$ids = explode(',', $user->getChallenges());		
-			if($ids[0] != ''){		
+			$ids = explode(',', $user->getChallenges());	
+			array_shift($ids);
+			if(count($ids) > 0){		
 				$challenges = array();			
 				foreach($ids as $id){
 					$challenge = $this->challengeRepository->getById($id);
@@ -75,8 +76,7 @@ class ChallengeController extends ActionController
 		if($this->securityContext->getAccount()){
 			$user = $this->userRepository->findByAccount($this->securityContext->getAccount());
 			$identifier = $this->challengeRepository->newChallenge($name, rtrim($ids, ','));	
-			$id = $this->challengeRepository->getIdByIdentifier($identifier);
-			\Neos\Flow\var_dump($id);
+			$id = $this->challengeRepository->getIdByIdentifier($identifier);		
 			$this->userRepository->updateChallenges($id);
 			$this->addFlashMessage('Challenge created');
 		}

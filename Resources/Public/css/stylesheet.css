@@ -46,3 +46,7 @@
 .dragEffect {
 	border-color: red;
 }
+
+body{
+	margin: 20px;
+}

@@ -52,7 +52,7 @@ class UserRepository {
 		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = \''.$this->persistenceManager->getIdentifierByObject($account).'\'';
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
 		$stmt->execute();
-		$result = $stmt->fetch(); 			
+		$result = $stmt->fetch(); 		
 		return $this->propertyMapper->convert(
 				$result,
 				\schilter\gw2challenges\Domain\Model\User::class,
@@ -80,7 +80,7 @@ class UserRepository {
 	}
 	
 	public function updateChallenges($id){
-		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET challenges = CONCAT(challenges, \','.$id.'\')';
+		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET challenges = CONCAT(IFNULL(challenges,  \'\'), \','.$id.'\')';
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
 		$stmt->execute();
 	}
