@@ -36,8 +36,8 @@ class MiniRepository {
 	}
 	
 	public function getById($id){
-		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM schilter_gw2challenges_domain_model_mini WHERE id =".$id);
-		$stmt->execute();
+		$stmt = $this->pdoService->getPdo()->prepare("SELECT * FROM schilter_gw2challenges_domain_model_mini WHERE id = :id");
+		$stmt->execute(array('id'=>$id));
 		return $this->propertyMapper->convert(
 				$stmt->fetch(), 
 				\schilter\gw2challenges\Domain\Model\Mini::class,

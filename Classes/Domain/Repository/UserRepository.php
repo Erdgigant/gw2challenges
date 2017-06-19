@@ -49,9 +49,9 @@ class UserRepository {
 	 * @return array
 	 */
 	public function findByAccount($account){
-		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = \''.$this->persistenceManager->getIdentifierByObject($account).'\'';
+		$sql = 'SELECT * FROM schilter_gw2challenges_domain_model_user WHERE account = :account';
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
-		$stmt->execute();
+		$stmt->execute(array('account'=>$this->persistenceManager->getIdentifierByObject($account)));
 		$result = $stmt->fetch(); 		
 		return $this->propertyMapper->convert(
 				$result,
@@ -64,9 +64,14 @@ class UserRepository {
 	 * @param \schilter\gw2challenges\Domain\Model\User $user
 	 */
 	public function updateApiKey($user){
-		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET apikey = \''.$user->getApiKey().'\' WHERE id ='.$user->getId();
+		$sql = 'UPDATE schilter_gw2challenges_domain_model_user SET apikey = :apiKey WHERE id = :id';
 		$stmt = $this->pdoService->getPdo()->prepare($sql);
-		$stmt->execute();
+		$stmt->execute(
+			array(
+				'apiKey'=>$user->getApiKey(), 
+				'id'=>$user->getId()
+			)
+		);
 	}
 	
 	/**
